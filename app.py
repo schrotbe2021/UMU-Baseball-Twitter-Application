@@ -57,11 +57,13 @@ class SubPage(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Substitute", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        
-        button3 = tk.Button(self, text="Home Page",
-                            command=lambda: controller.show_frame("HomePage"))
-    
-        button3.pack()
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 class HomePage(tk.Frame):
     
@@ -82,9 +84,13 @@ class StartGame(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Start Game Page", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go home",
+        homeButton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("HomePage"))
-        button.pack()
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 
 class ScoringChange(tk.Frame):
@@ -94,9 +100,13 @@ class ScoringChange(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Scoring Change Game", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go home",
+        homeButton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("HomePage"))
-        button.pack()
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 class EndGame(tk.Frame):
 
@@ -105,9 +115,13 @@ class EndGame(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="End Game", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go home",
+        homeButton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("HomePage"))
-        button.pack()
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 class ChooseTweet(tk.Frame):
 
@@ -115,7 +129,7 @@ class ChooseTweet(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Choose Tweet", font=controller.title_font)
-        label.pack(side="left", fill="x", pady=10)
+        label.pack(side="top", fill="x", pady=10)
 
         startGameButton = tk.Button(self, text="Start Game",
                             command=lambda: controller.show_frame("StartGame"))
@@ -128,14 +142,14 @@ class ChooseTweet(tk.Frame):
         subButton = tk.Button(self, text="Substitute",
                             command=lambda: controller.show_frame("SubPage"))
         
-        homeButton = tk.Button(self, text="Go home",
+        homeButton = tk.Button(self, text="<-- Back",
                            command=lambda: controller.show_frame("HomePage"))
-
-        homeButton.pack()
-        subButton.pack()
-        endGameButton.pack()
-        startGameButton.pack()
-        scoringChangeButton.pack()
+        
+        homeButton.place(x=150, y=45)
+        startGameButton.place(x=300, y=45)
+        scoringChangeButton.place(x=450, y=45)
+        subButton.place(x=600, y=45)
+        endGameButton.place(x=750, y=45)
 
 
 if __name__ == "__main__":
