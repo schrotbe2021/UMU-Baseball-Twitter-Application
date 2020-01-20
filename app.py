@@ -6,7 +6,7 @@ class UMUTwitterApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
 
-        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold")
         print(tk.TkVersion)
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
@@ -19,7 +19,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, ChooseTweet, StartGame, ScoringChange):
+        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -29,7 +29,7 @@ class UMUTwitterApp(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("StartPage")
+        self.show_frame("VerifyAccount")
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -37,7 +37,7 @@ class UMUTwitterApp(tk.Tk):
         frame.tkraise()
 
 
-class StartPage(tk.Frame):
+class VerifyAccount(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -45,10 +45,34 @@ class StartPage(tk.Frame):
         label = tk.Label(self, text="Verify Twitter Account", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         
-        button3 = tk.Button(self, text="Choose Tweet",
-                            command=lambda: controller.show_frame("ChooseTweet"))
+        button3 = tk.Button(self, text="Home Page",
+                            command=lambda: controller.show_frame("HomePage"))
     
         button3.pack()
+
+class SubPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Substitute", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        
+        button3 = tk.Button(self, text="Home Page",
+                            command=lambda: controller.show_frame("HomePage"))
+    
+        button3.pack()
+
+class HomePage(tk.Frame):
+    
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Home Page", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Choose Tweet",
+                           command=lambda: controller.show_frame("ChooseTweet"))
+        button.pack()
 
 
 class StartGame(tk.Frame):
@@ -58,8 +82,8 @@ class StartGame(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Start Game Page", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
+        button = tk.Button(self, text="Go home",
+                           command=lambda: controller.show_frame("HomePage"))
         button.pack()
 
 
@@ -70,8 +94,19 @@ class ScoringChange(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Scoring Change Game", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
+        button = tk.Button(self, text="Go home",
+                           command=lambda: controller.show_frame("HomePage"))
+        button.pack()
+
+class EndGame(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="End Game", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Go home",
+                           command=lambda: controller.show_frame("HomePage"))
         button.pack()
 
 class ChooseTweet(tk.Frame):
@@ -80,18 +115,27 @@ class ChooseTweet(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         label = tk.Label(self, text="Choose Tweet", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
+        label.pack(side="left", fill="x", pady=10)
 
-        button1 = tk.Button(self, text="Start Game",
+        startGameButton = tk.Button(self, text="Start Game",
                             command=lambda: controller.show_frame("StartGame"))
-        button2 = tk.Button(self, text="Scoring Chnage",
+        scoringChangeButton = tk.Button(self, text="Scoring Change",
                             command=lambda: controller.show_frame("ScoringChange"))
+
+        endGameButton = tk.Button(self, text="End Game",
+                            command=lambda: controller.show_frame("EndGame"))
+
+        subButton = tk.Button(self, text="Substitute",
+                            command=lambda: controller.show_frame("SubPage"))
         
-        button = tk.Button(self, text="Go to the start page",
-                           command=lambda: controller.show_frame("StartPage"))
-        button.pack()
-        button1.pack()
-        button2.pack()
+        homeButton = tk.Button(self, text="Go home",
+                           command=lambda: controller.show_frame("HomePage"))
+
+        homeButton.pack()
+        subButton.pack()
+        endGameButton.pack()
+        startGameButton.pack()
+        scoringChangeButton.pack()
 
 
 if __name__ == "__main__":
