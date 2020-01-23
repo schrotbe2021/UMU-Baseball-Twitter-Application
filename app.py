@@ -1,18 +1,20 @@
 import Tkinter as tk     # python 2
 import tkFont as tkfont  # python 2
+from tweets import SayPioBoof
 
 class UMUTwitterApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-
+        
         self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold")
-        print(tk.TkVersion)
+  
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
         
         container = tk.Frame(self)
+        self.title("Official UMU Twitter App")
 
         container.pack(side="top", fill="both", expand=True)
         container.grid_rowconfigure(0, weight=1)
@@ -82,6 +84,8 @@ class StartGame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        
+        # Page setup
         label = tk.Label(self, text="Start Game Page", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         homeButton = tk.Button(self, text="Home",
@@ -89,10 +93,58 @@ class StartGame(tk.Frame):
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
+        # Drop down menus
+        oacNonConf = tk.StringVar(self)
+        oacNonConf.set("Choose...")
+        oacDropDown = tk.OptionMenu(self, oacNonConf, "OAC", "nonconference")
+
+        numGames = tk.StringVar(self)
+        numGames.set("# of games...")
+        numGamesDropDown = tk.OptionMenu(self, numGames, "doubleheader", "matchup")
+
+        # Labels
+        oppenentLabel = tk.Label(self, text="Opponent:")
+        locationLabel = tk.Label(self, text="Location:")
+        timeLabel = tk.Label(self, text="Time:")
+        recordLabel = tk.Label(self, text="Record")
+        oacOrNonLabel = tk.Label(self, text="Conf Game:")
+        numGamesLabel = tk.Label(self, text="# of Games:")
+        gameLinkLabel = tk.Label(self, text="Game Link:")
+
+        # Entries
+        opponentEntry = tk.Entry(self, width=25)
+        locationEntry = tk.Entry(self, width=25)
+        timeEntry = tk.Entry(self, width=25)
+        recordEntry = tk.Entry(self, width=25)
+        gameLinkEntry = tk.Entry(self, width = 50)
+
+        # Buttons
+        sendTweetButton = tk.Button(self, text="Send Tweet", command=SayPioBoof)
+
+        # Placement
+        xLabel = 150
+        recordLabel.place(x=xLabel, y=75)
+        timeLabel.place(x=xLabel, y=150)
+        locationLabel.place(x=xLabel, y=125)
+        oppenentLabel.place(x=xLabel, y=100)
+        oacOrNonLabel.place(x=xLabel, y=200)
+        numGamesLabel.place(x=xLabel, y=225)
+        gameLinkLabel.place(x=xLabel, y=250)
+        
+        timeEntry.place(x=250, y=150)
+        locationEntry.place(x=250, y=125)
+        opponentEntry.place(x=250, y=100)
+        recordEntry.place(x=250, y=75)
+        gameLinkEntry.place(x=250, y=250)
+        
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
+        sendTweetButton.place(x=500, y=500)
 
+        oacDropDown.place(x=250, y=200)
+        numGamesDropDown.place(x=250, y=225)
 
+        
 class ScoringChange(tk.Frame):
 
     def __init__(self, parent, controller):
