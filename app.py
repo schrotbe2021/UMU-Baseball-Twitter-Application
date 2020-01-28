@@ -1,6 +1,12 @@
 import Tkinter as tk     # python 2
 import tkFont as tkfont  # python 2
-from tweets import SayPioBoof
+import twitter
+import emoji
+
+api = twitter.Api(consumer_key='Kt4rgFjVqsEjUZ7hI2gogLgf3',
+                      consumer_secret='XnFrW7acLminsGdPTgiGxpsnSqDdhSu311LDcc0YsTsWTc1hHw',
+                      access_token_key='804787884893028356-OSuVoDz3eduTcwq8B50qiXIec5OhFCg',
+                      access_token_secret='hTw8k48CIWkQvkbH8yYSrDx9tDav4GWCciPQV5xGOArxa')
 
 class UMUTwitterApp(tk.Tk):
 
@@ -84,6 +90,8 @@ class StartGame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
+        
         
         # Page setup
         label = tk.Label(self, text="Start Game Page", font=controller.title_font)
@@ -96,7 +104,7 @@ class StartGame(tk.Frame):
         # Drop down menus
         oacNonConf = tk.StringVar(self)
         oacNonConf.set("Choose...")
-        oacDropDown = tk.OptionMenu(self, oacNonConf, "OAC", "nonconference")
+        oacDropDown = tk.OptionMenu(self, oacNonConf, "OAC", "nonconference")          
 
         numGames = tk.StringVar(self)
         numGames.set("# of games...")
@@ -118,8 +126,18 @@ class StartGame(tk.Frame):
         recordEntry = tk.Entry(self, width=25)
         gameLinkEntry = tk.Entry(self, width = 50)
 
+        
+
+        def StartGameTweet():
+            status = api.PostUpdate('Mount Union (' + recordEntry.get() + ') takes on ' + opponentEntry.get()
+                        + ' in a ' + oacNonConf.get() + ' ' + numGames.get() + ' today.\n\n\t' 
+                        + emoji.emojize(':round_pushpin:') + ': ' + locationEntry.get() + '\n' 
+                        + emoji.emojize(':alarm_clock:') + ': ' + timeEntry.get() + '\n'
+                        + emoji.emojize(':link:') + ': ' + gameLinkEntry.get() 
+                        + '\n\n\tYou can follow live tweets for today\'s game at #UMUBaseball20')
+
         # Buttons
-        sendTweetButton = tk.Button(self, text="Send Tweet", command=SayPioBoof)
+        sendTweetButton = tk.Button(self, text="Send Tweet", command=StartGameTweet)
 
         # Placement
         xLabel = 150
