@@ -8,6 +8,7 @@ api = twitter.Api(consumer_key='Kt4rgFjVqsEjUZ7hI2gogLgf3',
                       access_token_key='804787884893028356-OSuVoDz3eduTcwq8B50qiXIec5OhFCg',
                       access_token_secret='hTw8k48CIWkQvkbH8yYSrDx9tDav4GWCciPQV5xGOArxa')
 
+
 class UMUTwitterApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -27,7 +28,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage):
+        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, LineupTweet):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -53,7 +54,7 @@ class VerifyAccount(tk.Frame):
         label = tk.Label(self, text="Verify Twitter Account", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         
-        button3 = tk.Button(self, text="Home Page",
+        button3 = tk.Button(self, text="Home Page", bd=0, bg='white',
                             command=lambda: controller.show_frame("HomePage"))
     
         button3.pack()
@@ -91,12 +92,16 @@ class ChooseTweet(tk.Frame):
         
         homeButton = tk.Button(self, text="<-- Back",
                            command=lambda: controller.show_frame("HomePage"))
+
+        lineupTweetButton = tk.Button(self, text="Lineup", 
+                            command=lambda: controller.show_frame('LineupTweet'))
         
         homeButton.place(x=150, y=45)
         startGameButton.place(x=300, y=45)
         scoringChangeButton.place(x=450, y=45)
         subButton.place(x=600, y=45)
         endGameButton.place(x=750, y=45)
+        lineupTweetButton.place(x=900, y=45)
 
 class SubPage(tk.Frame):
 
@@ -392,6 +397,21 @@ class EndGame(tk.Frame):
         sendTweet.place(x=200, y=300)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
+
+class LineupTweet(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # Page Setup
+        label = tk.Label(self, text="Lineup", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+    
 
 
 
