@@ -180,10 +180,17 @@ class ScoringChange(tk.Frame):
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
-        
+        def WhoScored():
+            if whoScored == 'Mount Union':
+                return (playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' with a ' 
+                + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n')
+            else :
+                return (opponentEntry.get() + ' scores ' + numRunsEntry.get() + ' with a '
+                + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n')
+
         def ScoringChangeTweet():
-            status = api.PostUpdate(playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' with a ' 
-                + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n' 
+            status = api.PostUpdate(
+                WhoScored()
                 + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                 + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
                 + '#UMUBaseball2020 | #D3Baseball')
