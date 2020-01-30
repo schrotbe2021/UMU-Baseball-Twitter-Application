@@ -114,8 +114,8 @@ class SubPage(tk.Frame):
 
         def TweetType():
             if subType.get() == str('Pitching Substitution'):
-                return (subInEntry.get() + ' replaces ' + subOutEntry.get() + ' in the '
-                + inningEntry.get() + ' inning to pitch for Mount Union.\n\n'
+                return (subInEntry.get() + ' takes the mound for ' + subOutEntry.get() + ' in the '
+                + inningEntry.get() + ' inning.\n\n'
                 + '#UMUBaseball2020 | #D3Baseball')
             else:
                 return (subInEntry.get() + ' will pinch hit for ' + subOutEntry.get() + ' in the '
@@ -254,7 +254,7 @@ class ScoringChange(tk.Frame):
                             command=lambda: controller.show_frame("ChooseTweet"))
 
         def WhoScored():
-            if whoScored == 'Mount Union':
+            if whoScored == str('Mount Union'):
                 return (playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' with a ' 
                 + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n')
             else :
@@ -331,12 +331,37 @@ class EndGame(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
+        # Page Setup
         label = tk.Label(self, text="End Game", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         homeButton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("HomePage"))
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
+
+        # Label
+        opponentLabel = tk.Label(self, text="Opponent:")
+        mountRecordLabel = tk.Label(self, text="Record:")
+        mountScoreLabel = tk.Label(self, text="Mount Score:")
+        opponentScoreLabel = tk.Label(self, text="Opponent Score:")
+        
+        # Entry
+        opponentEntry = tk.Entry(self, width=50)
+        mountRecordEntry = tk.Entry(self, width=50)
+        mountScoreEntry = tk.Entry(self, width=50)
+        opponentScoreEntry = tk.Entry(self, width=50)
+
+        # Placement
+        opponentLabel.place(x=150, y=150)
+        mountRecordLabel.place(x=150, y=175)
+        mountScoreLabel.place(x=150, y=200)
+        opponentScoreLabel.place(x=150, y=225)
+
+        opponentEntry.place(x=250, y=150)
+        mountRecordEntry.place(x=250, y=175)
+        mountScoreEntry.place(x=250, y=200)
+        opponentScoreEntry.place(x=250, y=225)
 
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
