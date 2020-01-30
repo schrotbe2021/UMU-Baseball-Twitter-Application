@@ -170,12 +170,17 @@ class ScoringChange(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
+        # Page Setup
         label = tk.Label(self, text="Scoring Change Game", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
+        
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
 
-     
-            
-
+        
         def ScoringChangeTweet():
             status = api.PostUpdate(playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' with a ' 
                 + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n' 
@@ -184,14 +189,12 @@ class ScoringChange(tk.Frame):
                 + '#UMUBaseball2020 | #D3Baseball')
 
         # Buttons
-        homeButton = tk.Button(self, text="Home",
-                           command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
-                            command=lambda: controller.show_frame("ChooseTweet"))
         sendTweetButton = tk.Button(self, text='Send Tweet', command=ScoringChangeTweet)
 
         # Radio Button
-        whoScoredLabel = tk.Label(self, text='Who Scored?')
+        whoScored = tk.StringVar(self)
+        mountScoredRB = tk.Radiobutton(self, text="Mount Union", variable=whoScored, value=1)
+        opponentScoredRB = tk.Radiobutton(self, text="Opponent", variable=whoScored, value=2)
 
         # Option Menus
         hitType = tk.StringVar(self)
@@ -206,6 +209,7 @@ class ScoringChange(tk.Frame):
         mountScoreLabel = tk.Label(self ,text='UMU Score:')
         opponentLabel = tk.Label(self, text='Opponent:')
         opponentScoreLabel = tk.Label(self, text='Opponent Score:')
+        whoScoredLabel = tk.Label(self, text='Who Scored?')
 
 
         # Text Fields
@@ -234,6 +238,9 @@ class ScoringChange(tk.Frame):
         opponentScoreEntry.place(x=250, y=300)
 
         hitTypeMenu.place(x=250, y=200)
+
+        mountScoredRB.place(x=250, y=125)
+        opponentScoredRB.place(x=350, y=125)
 
         sendTweetButton.place(x=400, y=400)
         backButton.place(x=50, y=45)
