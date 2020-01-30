@@ -254,8 +254,8 @@ class ScoringChange(tk.Frame):
                             command=lambda: controller.show_frame("ChooseTweet"))
 
         def WhoScored():
-            if whoScored == str('Mount Union'):
-                return (playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' with a ' 
+            if whoScored.get() == str('Mount Union'):
+                return (playerNameEntry.get() + ' brings in ' + numRunsEntry.get() + ' runs with a ' 
                 + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n')
             else :
                 return (opponentEntry.get() + ' scores ' + numRunsEntry.get() + ' with a '
@@ -279,7 +279,7 @@ class ScoringChange(tk.Frame):
         # Option Menus
         hitType = tk.StringVar(self)
         hitType.set('Hit Type...')
-        hitTypeMenu = tk.OptionMenu(self, hitType, 'Single', 'Double', 'Triple', 'Home Run', 'Walk')
+        hitTypeMenu = tk.OptionMenu(self, hitType, 'single', 'double', 'triple', 'home run', 'walk')
 
         # Labels
         playerNameLabel = tk.Label(self, text='Player Name:')
