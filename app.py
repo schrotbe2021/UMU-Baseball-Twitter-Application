@@ -340,11 +340,33 @@ class EndGame(tk.Frame):
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
+        def WhoWon():
+            if whoWon.get() == 'Mount Union':
+                return ('Mount Union defeats ' + opponentEntry.get() + '.\n\n')
+            else:
+                return (opponentEntry.get() + ' defeats Mount Union.\n\n')
+
+        def EndGameTweet():
+            api.PostUpdate(
+                            WhoWon() 
+                            + 'Mount Union - ' + mountScoreEntry.get() + '\n'
+                            + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
+                            + '#UMUBaseball2020 | #D3Baseball')
+
+        # Button
+        sendTweet = tk.Button(self, text='Send Tweet', command=EndGameTweet)
+
+        # Radio Button
+        whoWon = tk.StringVar(self)
+        mountWin = tk.Radiobutton(self, text='Mount Union', variable=whoWon, value='Mount Union')
+        opponentWin = tk.Radiobutton(self, text='Opponent', variable=whoWon, value='Opponent')
+
         # Label
         opponentLabel = tk.Label(self, text="Opponent:")
         mountRecordLabel = tk.Label(self, text="Record:")
         mountScoreLabel = tk.Label(self, text="Mount Score:")
         opponentScoreLabel = tk.Label(self, text="Opponent Score:")
+        winnerLabel = tk.Label(self, text="Winning Team:")
         
         # Entry
         opponentEntry = tk.Entry(self, width=50)
@@ -357,12 +379,17 @@ class EndGame(tk.Frame):
         mountRecordLabel.place(x=150, y=175)
         mountScoreLabel.place(x=150, y=200)
         opponentScoreLabel.place(x=150, y=225)
+        winnerLabel.place(x=150, y=125)
 
         opponentEntry.place(x=250, y=150)
         mountRecordEntry.place(x=250, y=175)
         mountScoreEntry.place(x=250, y=200)
         opponentScoreEntry.place(x=250, y=225)
 
+        mountWin.place(x=200, y=125)
+        opponentWin.place(x=300, y=125)
+
+        sendTweet.place(x=200, y=300)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
