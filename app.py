@@ -58,20 +58,6 @@ class VerifyAccount(tk.Frame):
     
         button3.pack()
 
-class SubPage(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="Substitute", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
-                           command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
-                            command=lambda: controller.show_frame("ChooseTweet"))
-
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
 
 class HomePage(tk.Frame):
     
@@ -83,6 +69,97 @@ class HomePage(tk.Frame):
         button = tk.Button(self, text="Choose Tweet",
                            command=lambda: controller.show_frame("ChooseTweet"))
         button.pack()
+
+class ChooseTweet(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Choose Tweet", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        startGameButton = tk.Button(self, text="Start Game",
+                            command=lambda: controller.show_frame("StartGame"))
+        scoringChangeButton = tk.Button(self, text="Scoring Change",
+                            command=lambda: controller.show_frame("ScoringChange"))
+
+        endGameButton = tk.Button(self, text="End Game",
+                            command=lambda: controller.show_frame("EndGame"))
+
+        subButton = tk.Button(self, text="Substitute",
+                            command=lambda: controller.show_frame("SubPage"))
+        
+        homeButton = tk.Button(self, text="<-- Back",
+                           command=lambda: controller.show_frame("HomePage"))
+        
+        homeButton.place(x=150, y=45)
+        startGameButton.place(x=300, y=45)
+        scoringChangeButton.place(x=450, y=45)
+        subButton.place(x=600, y=45)
+        endGameButton.place(x=750, y=45)
+
+class SubPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # Page Setup
+        label = tk.Label(self, text="Substitute", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        def TweetType():
+            if subType.get() == str('Pitching Substitution'):
+                return (subInEntry.get() + ' replaces ' + subOutEntry.get() + ' in the '
+                + inningEntry.get() + ' inning to pitch for Mount Union.\n\n'
+                + '#UMUBaseball2020 | #D3Baseball')
+            else:
+                return (subInEntry.get() + ' will pinch hit for ' + subOutEntry.get() + ' in the '
+                + inningEntry.get() + ' inning for Mount Union.\n\n'
+                + '#UMUBaseball2020 | #D3Baseball')
+        
+        def SubstitutionTweet():
+            api.PostUpdate(TweetType())
+
+        #Button
+        sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
+
+        # Radio Button
+        subType = tk.StringVar(self)
+        pitchingSub = tk.Radiobutton(self, text="Pitching Substitution", variable=subType, value="Pitching Substitution")
+        pinchHit = tk.Radiobutton(self, text="Pinch Hit", variable=subType, value="Pinch Hit")
+
+        # Label
+        subInLabel = tk.Label(self, text="Player:")
+        subOutLabel = tk.Label(self, text="Subbing for:")
+        inningLabel = tk.Label(self, text="Inning:")
+        subTypeLabel = tk.Label(self, text="Substitution type:")
+
+        #Entry
+        subInEntry = tk.Entry(self, width=25)
+        subOutEntry = tk.Entry(self, width=25)
+        inningEntry = tk.Entry(self, width=25)
+
+        # Placements
+        subInLabel.place(x=150, y=150)
+        subOutLabel.place(x=450, y=150)
+        inningLabel.place(x=150, y=175)
+        subTypeLabel.place(x=150, y=125)
+
+        subInEntry.place(x=225, y=150)
+        subOutEntry.place(x=550, y=150)
+        inningEntry.place(x=225, y=175)
+
+        pitchingSub.place(x=275, y=125)
+        pinchHit.place(x=450, y=125)
+
+        sendTweet.place(x=300, y=300)
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 
 class StartGame(tk.Frame):
@@ -161,10 +238,6 @@ class StartGame(tk.Frame):
         numGamesDropDown.place(x=250, y=225)
 
         
-
-        
-
-        
 class ScoringChange(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -200,8 +273,8 @@ class ScoringChange(tk.Frame):
 
         # Radio Button
         whoScored = tk.StringVar(self)
-        mountScoredRB = tk.Radiobutton(self, text="Mount Union", variable=whoScored, value=1)
-        opponentScoredRB = tk.Radiobutton(self, text="Opponent", variable=whoScored, value=2)
+        mountScoredRB = tk.Radiobutton(self, text="Mount Union", variable=whoScored, value="Mount Union")
+        opponentScoredRB = tk.Radiobutton(self, text="Opponent", variable=whoScored, value="Opponent")
 
         # Option Menus
         hitType = tk.StringVar(self)
@@ -268,33 +341,7 @@ class EndGame(tk.Frame):
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
-class ChooseTweet(tk.Frame):
 
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="Choose Tweet", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-
-        startGameButton = tk.Button(self, text="Start Game",
-                            command=lambda: controller.show_frame("StartGame"))
-        scoringChangeButton = tk.Button(self, text="Scoring Change",
-                            command=lambda: controller.show_frame("ScoringChange"))
-
-        endGameButton = tk.Button(self, text="End Game",
-                            command=lambda: controller.show_frame("EndGame"))
-
-        subButton = tk.Button(self, text="Substitute",
-                            command=lambda: controller.show_frame("SubPage"))
-        
-        homeButton = tk.Button(self, text="<-- Back",
-                           command=lambda: controller.show_frame("HomePage"))
-        
-        homeButton.place(x=150, y=45)
-        startGameButton.place(x=300, y=45)
-        scoringChangeButton.place(x=450, y=45)
-        subButton.place(x=600, y=45)
-        endGameButton.place(x=750, y=45)
 
 
 if __name__ == "__main__":
