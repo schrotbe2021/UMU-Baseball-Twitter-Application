@@ -1,5 +1,7 @@
 import Tkinter as tk     # python 2
 import tkFont as tkfont  # python 2
+import tkFileDialog
+from PIL import Image, ImageTk
 import twitter
 import emoji
 
@@ -53,6 +55,18 @@ class VerifyAccount(tk.Frame):
         self.controller = controller
         label = tk.Label(self, text="Verify Twitter Account", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
+
+        def FilePicker():
+            filename = tkFileDialog.askopenfilename(initialdir = "./images", title = "Select file",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            img = Image.open(filename)
+            img = img.resize((300, 250), Image.ANTIALIAS)
+            tkImage = ImageTk.PhotoImage(img)
+            displayImg = tk.Label(self, image = tkImage)
+            displayImg.image = tkImage
+            displayImg.place(x=50, y=200)
+        
+        filePickerButton = tk.Button(self, text='Choose File', command=FilePicker)
+        filePickerButton.place(x=100, y=10)
         
         button3 = tk.Button(self, text="Home Page", bd=0, bg='white',
                             command=lambda: controller.show_frame("HomePage"))
@@ -445,7 +459,11 @@ class Lineup(tk.Frame):
         def PlayerString():
             result = ''
             for i in range(len(lineup)):
-                result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                if posOptionArray[i].get() == 'P':
+                    result += ('P - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                else:
+                    result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                
             
             return result
 
@@ -470,7 +488,7 @@ class Lineup(tk.Frame):
 
         opponentEntry.place(x=250, y=150)    
 
-        sendTweetButton.place(x=200, y=400)
+        sendTweetButton.place(x=200, y=500)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
