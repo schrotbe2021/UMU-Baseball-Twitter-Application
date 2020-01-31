@@ -28,7 +28,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, LineupTweet):
+        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -93,15 +93,15 @@ class ChooseTweet(tk.Frame):
         homeButton = tk.Button(self, text="<-- Back",
                            command=lambda: controller.show_frame("HomePage"))
 
-        lineupTweetButton = tk.Button(self, text="Lineup", 
-                            command=lambda: controller.show_frame('LineupTweet'))
+        lineupButton = tk.Button(self, text="Lineup", 
+                            command=lambda: controller.show_frame('Lineup'))
         
         homeButton.place(x=150, y=45)
         startGameButton.place(x=300, y=45)
         scoringChangeButton.place(x=450, y=45)
         subButton.place(x=600, y=45)
         endGameButton.place(x=750, y=45)
-        lineupTweetButton.place(x=900, y=45)
+        lineupButton.place(x=900, y=45)
 
 class SubPage(tk.Frame):
 
@@ -352,8 +352,7 @@ class EndGame(tk.Frame):
                 return (opponentEntry.get() + ' defeats Mount Union.\n\n')
 
         def EndGameTweet():
-            api.PostUpdate(
-                            WhoWon() 
+            api.PostUpdate(WhoWon() 
                             + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                             + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
                             + '#UMUBaseball2020 | #D3Baseball')
@@ -398,7 +397,7 @@ class EndGame(tk.Frame):
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
-class LineupTweet(tk.Frame):
+class Lineup(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -441,14 +440,24 @@ class LineupTweet(tk.Frame):
             lineUpEntry.append(entry)
             posOptionArray.append(posOption)
 
+        
+        # PlayerString() takes in lineUpEntry and posOptionArray and returns string for tweet with lineup
         def PlayerString():
             result = ''
             for i in range(len(lineup)):
-                print(str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
                 result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+            
+            return result
 
-        testButton = tk.Button(self, text='Test', command=PlayerString)
-        testButton.place(x=300, y=300)
+        def LineupTweet():
+            api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
+            + PlayerString() + '\n\n'
+            + '#UMUBaseball2020 | #D3Baseball')
+
+
+        # Button
+        sendTweetButton = tk.Button(self, text='Send Tweet', command=LineupTweet)
+
 
         # Label
         opponentLabel = tk.Label(self, text='Opponent:')   
@@ -458,9 +467,12 @@ class LineupTweet(tk.Frame):
 
         # Placement
         opponentLabel.place(x=150, y= 150)
+
         opponentEntry.place(x=250, y=150)    
 
-
+        sendTweetButton.place(x=200, y=400)
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 
 
 if __name__ == "__main__":
