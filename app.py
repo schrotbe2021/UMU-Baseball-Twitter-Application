@@ -411,7 +411,54 @@ class LineupTweet(tk.Frame):
                            command=lambda: controller.show_frame("HomePage"))
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
-    
+
+
+        # Arrays to set up label and entries widgets for lineup and position
+        lineup = ['1:', '2:', '3:', '4:', '5:', '6:', '7:', '8:', '9:', 'P:']
+        lineUpEntry = []
+        posOptionArray = []
+
+        yLabel = 150  # Control for yPos of widget
+        # For loop to instantiate and place labels and entries for lineup tweet
+        for i in range(len(lineup)):
+            yLabel += 25 # Increments yPos to display widgets correctly
+
+            # Widget to be placed through each iteration
+            label = tk.Label(self, text=lineup[i])
+            entry = tk.Entry(self, width = 20)
+
+            posOption = tk.StringVar(self)
+            posOption.set('Position...')
+            posOpMenu = tk.OptionMenu(self, posOption, 'C', '1B', '2B', 'SS', '3B', 'LF', 'CF', 'RF', 'DH', 'P')
+            posOpMenu.config(width=10)
+
+            # Placement of widget through each iteration
+            entry.place(x=175, y=yLabel)
+            label.place(x=150, y=yLabel)
+            posOpMenu.place(x=375, y=yLabel)
+
+            # Adds widget to array
+            lineUpEntry.append(entry)
+            posOptionArray.append(posOption)
+
+        def PlayerString():
+            result = ''
+            for i in range(len(lineup)):
+                print(str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+
+        testButton = tk.Button(self, text='Test', command=PlayerString)
+        testButton.place(x=300, y=300)
+
+        # Label
+        opponentLabel = tk.Label(self, text='Opponent:')   
+
+        # Entry
+        opponentEntry = tk.Entry(self, width=50)
+
+        # Placement
+        opponentLabel.place(x=150, y= 150)
+        opponentEntry.place(x=250, y=150)    
 
 
 
