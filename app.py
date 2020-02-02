@@ -153,6 +153,8 @@ class SubPage(tk.Frame):
             # Tweet with photo
             api.PostUpdate(TweetType(), media=filename)
 
+            self.controller.show_frame("TweetSentCheck")
+
         #Button
         sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
 
@@ -216,6 +218,8 @@ class StartGame(tk.Frame):
                         + emoji.emojize(':alarm_clock:') + ': ' + timeEntry.get() + '\n'
                         + emoji.emojize(':link:') + ': ' + gameLinkEntry.get() 
                         + '\n\n\tYou can follow live tweets for today\'s game at #UMUBaseball2020', media=filename)
+        
+        self.controller.show_frame("TweetSentCheck")
 
         # Drop down menus
         oacNonConf = tk.StringVar(self)
@@ -302,6 +306,8 @@ class ScoringChange(tk.Frame):
                 + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                 + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
                 + '#UMUBaseball2020 | #D3Baseball', media=filename)
+
+            self.controller.show_frame("TweetSentCheck")
 
         # Buttons
         sendTweetButton = tk.Button(self, text='Send Tweet', command=ScoringChangeTweet)
@@ -394,6 +400,8 @@ class EndGame(tk.Frame):
                             + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                             + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
                             + '#UMUBaseball2020 | #D3Baseball', media=filename)
+            
+            self.controller.show_frame("TweetSentCheck")
 
         # Button
         sendTweet = tk.Button(self, text='Send Tweet', command=EndGameTweet)
@@ -499,6 +507,8 @@ class Lineup(tk.Frame):
             + PlayerString() + '\n\n'
             + '#UMUBaseball2020 | #D3Baseball', media=filename)
 
+            self.controller.show_frame("TweetSentCheck")
+
 
         # Button
         sendTweetButton = tk.Button(self, text='Send Tweet', command=LineupTweet)
@@ -597,6 +607,7 @@ class TweetSentCheck(tk.Frame):
             setLabel = returnedTweet[0]['text']
             latestTweetLabel.config(text=setLabel)
 
+        # Deletes most recent tweet
         def DeleteTweet():
             tweet = api.GetUserTimeline(screen_name ='umubaseball', count=1)
             returnedTweet = [i.AsDict() for i in tweet]
