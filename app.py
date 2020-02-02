@@ -131,6 +131,7 @@ class SubPage(tk.Frame):
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
+        # Tweet based on chekcbox whether it is a pitching change or pinch hit
         def TweetType():
             if subType.get() == str('Pitching Substitution'):
                 return (subInEntry.get() + ' takes the mound for ' + subOutEntry.get() + ' in the '
@@ -142,6 +143,10 @@ class SubPage(tk.Frame):
                 + '#UMUBaseball2020 | #D3Baseball')
         
         def SubstitutionTweet():
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+
+            # Tweet with photo
             api.PostUpdate(TweetType())
 
         #Button
@@ -285,8 +290,11 @@ class ScoringChange(tk.Frame):
                 + hitType.get() + ' in the ' + inningEntry.get() + ' inning.\n\n')
 
         def ScoringChangeTweet():
-            status = api.PostUpdate(
-                WhoScored()
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+
+            # Tweet with photo
+            status = api.PostUpdate(WhoScored()
                 + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                 + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
                 + '#UMUBaseball2020 | #D3Baseball')
@@ -370,6 +378,10 @@ class EndGame(tk.Frame):
                 return (opponentEntry.get() + ' defeats Mount Union.\n\n')
 
         def EndGameTweet():
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+
+            # Tweet with photo
             api.PostUpdate(WhoWon() 
                             + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                             + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
@@ -468,10 +480,13 @@ class Lineup(tk.Frame):
                 else:
                     result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
                 
-            
             return result
 
         def LineupTweet():
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+
+            # Tweet with photo
             api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
             + PlayerString() + '\n\n'
             + '#UMUBaseball2020 | #D3Baseball')
