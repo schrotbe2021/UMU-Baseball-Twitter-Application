@@ -532,6 +532,22 @@ class CustomTweet(tk.Frame):
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
+        # Get input for tweet
+        def GetTextInput():
+            result = inputTextField.get('1.0', 'end-1c')
+            return result
+        
+        def Custom():
+            # Pick photo for tweet in dialog
+            if mediaOption.get() == 'Yes':
+                filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            else:
+                filename = ''
+            
+            # Tweet for custom input
+            api.PostUpdate(GetTextInput() 
+                          + '\n\n#UMUBaseball2020 | #D3Baseball', media=filename)
+
         # Label
         mediaLabel = tk.Label(self, text='Include media?')
 
@@ -540,7 +556,11 @@ class CustomTweet(tk.Frame):
         yesMedia = tk.Radiobutton(self, text='Yes', variable=mediaOption, value='Yes')
         noMedia = tk.Radiobutton(self, text='No', variable=mediaOption, value='No')
 
-        
+        # Text Field
+        inputTextField = tk.Text(self, width=50, height=25, wrap="word")
+
+        # Button
+        sendTweetButton = tk.Button(self, text='Send Tweet', command=Custom)
 
         # Placement
         mediaLabel.place(x=150, y=150)
@@ -548,6 +568,9 @@ class CustomTweet(tk.Frame):
         yesMedia.place(x=250, y=150)
         noMedia.place(x=350, y=150)
 
+        inputTextField.place(x=50, y=250)
+
+        sendTweetButton.place(x=400, y=250)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 if __name__ == "__main__":
