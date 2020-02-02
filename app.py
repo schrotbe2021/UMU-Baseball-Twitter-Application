@@ -30,7 +30,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup, CustomTweet):
+        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup, CustomTweet, TweetSentCheck):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -547,6 +547,8 @@ class CustomTweet(tk.Frame):
             # Tweet for custom input
             api.PostUpdate(GetTextInput() 
                           + '\n\n#UMUBaseball2020 | #D3Baseball', media=filename)
+            
+            self.controller.show_frame("TweetSentCheck")
 
         # Label
         mediaLabel = tk.Label(self, text='Include media?')
@@ -573,6 +575,40 @@ class CustomTweet(tk.Frame):
         sendTweetButton.place(x=400, y=250)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
+
+class TweetSentCheck(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # Page Setup
+        label = tk.Label(self, text="Lineup", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        # Sets label to confirm that tweet was sent.
+        def LastTweet():
+            tweet = api.GetUserTimeline(screen_name ='umubaseball', count=1)
+            returnedTweet = [i.AsDict() for i in tweet]
+            setLabel = returnedTweet[0]['text']
+            latestTweetLabel.config(text=setLabel)
+
+        # Button
+        checkTweet = tk.Button(self, text='Check Tweet', command=LastTweet)
+
+        # Label
+        latestTweetLabel = tk.Label(self, text='Press Check Tweet to see latest tweet')
+        
+        # Placement
+        latestTweetLabel.place(x=150, y=150)
+
+        checkTweet.place(x=150, y=450)
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
+
 if __name__ == "__main__":
     app = UMUTwitterApp()
     app.geometry("1000x750")
