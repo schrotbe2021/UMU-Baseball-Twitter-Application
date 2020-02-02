@@ -144,10 +144,10 @@ class SubPage(tk.Frame):
         
         def SubstitutionTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
-            api.PostUpdate(TweetType())
+            api.PostUpdate(TweetType(), media=filename)
 
         #Button
         sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
@@ -291,13 +291,13 @@ class ScoringChange(tk.Frame):
 
         def ScoringChangeTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
             status = api.PostUpdate(WhoScored()
                 + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                 + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
-                + '#UMUBaseball2020 | #D3Baseball')
+                + '#UMUBaseball2020 | #D3Baseball', media=filename)
 
         # Buttons
         sendTweetButton = tk.Button(self, text='Send Tweet', command=ScoringChangeTweet)
@@ -378,14 +378,18 @@ class EndGame(tk.Frame):
                 return (opponentEntry.get() + ' defeats Mount Union.\n\n')
 
         def EndGameTweet():
-            # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            
+            # Pick photo for tweet in dialog only if Mount wins.
+            if whoWon.get() == 'Mount Union':
+                filename = tkFileDialog.askopenfilename(initialdir = "./images/EndGame", title = "Select photo",filetypes = (("all files","*.*"), ("jpeg files","*.jpg")))
+            else:
+                filename = ''
 
             # Tweet with photo
             api.PostUpdate(WhoWon() 
                             + 'Mount Union - ' + mountScoreEntry.get() + '\n'
                             + opponentEntry.get() + ' - ' + opponentScoreEntry.get() + '\n\n'
-                            + '#UMUBaseball2020 | #D3Baseball')
+                            + '#UMUBaseball2020 | #D3Baseball', media=filename)
 
         # Button
         sendTweet = tk.Button(self, text='Send Tweet', command=EndGameTweet)
@@ -489,7 +493,7 @@ class Lineup(tk.Frame):
             # Tweet with photo
             api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
             + PlayerString() + '\n\n'
-            + '#UMUBaseball2020 | #D3Baseball')
+            + '#UMUBaseball2020 | #D3Baseball', media=filename)
 
 
         # Button
