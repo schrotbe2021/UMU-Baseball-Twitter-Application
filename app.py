@@ -547,7 +547,8 @@ class CustomTweet(tk.Frame):
             # Tweet for custom input
             api.PostUpdate(GetTextInput() 
                           + '\n\n#UMUBaseball2020 | #D3Baseball', media=filename)
-            
+
+            inputTextField.delete('1.0', 'end-1c')
             self.controller.show_frame("TweetSentCheck")
 
         # Label
@@ -596,8 +597,14 @@ class TweetSentCheck(tk.Frame):
             setLabel = returnedTweet[0]['text']
             latestTweetLabel.config(text=setLabel)
 
+        def DeleteTweet():
+            tweet = api.GetUserTimeline(screen_name ='umubaseball', count=1)
+            returnedTweet = [i.AsDict() for i in tweet]
+            api.DestroyStatus(returnedTweet[0]['id'])
+
         # Button
         checkTweet = tk.Button(self, text='Check Tweet', command=LastTweet)
+        deleteTweet = tk.Button(self, text='Delete Tweet', command=DeleteTweet)
 
         # Label
         latestTweetLabel = tk.Label(self, text='Press Check Tweet to see latest tweet')
@@ -605,6 +612,7 @@ class TweetSentCheck(tk.Frame):
         # Placement
         latestTweetLabel.place(x=150, y=150)
 
+        deleteTweet.place(x=200, y=450)
         checkTweet.place(x=150, y=450)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
