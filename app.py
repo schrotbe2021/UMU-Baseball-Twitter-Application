@@ -30,7 +30,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup):
+        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup, CustomTweet):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -104,12 +104,16 @@ class ChooseTweet(tk.Frame):
         subButton = tk.Button(self, text="Substitute",
                             command=lambda: controller.show_frame("SubPage"))
         
+        customButton = tk.Button(self, text='Custom Tweet', 
+                            command=lambda: controller.show_frame("CustomTweet"))
+        
         homeButton = tk.Button(self, text="<-- Back",
                            command=lambda: controller.show_frame("HomePage"))
 
         lineupButton = tk.Button(self, text="Lineup", 
                             command=lambda: controller.show_frame('Lineup'))
         
+        customButton.place(x=300, y=100)
         homeButton.place(x=150, y=45)
         startGameButton.place(x=300, y=45)
         scoringChangeButton.place(x=450, y=45)
@@ -515,7 +519,37 @@ class Lineup(tk.Frame):
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
+class CustomTweet(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
 
+        # Page Setup
+        label = tk.Label(self, text="Lineup", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+        # Label
+        mediaLabel = tk.Label(self, text='Include media?')
+
+        # Radio Button
+        mediaOption = tk.StringVar(self)
+        yesMedia = tk.Radiobutton(self, text='Yes', variable=mediaOption, value='Yes')
+        noMedia = tk.Radiobutton(self, text='No', variable=mediaOption, value='No')
+
+        
+
+        # Placement
+        mediaLabel.place(x=150, y=150)
+
+        yesMedia.place(x=250, y=150)
+        noMedia.place(x=350, y=150)
+
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
 if __name__ == "__main__":
     app = UMUTwitterApp()
     app.geometry("1000x750")
