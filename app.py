@@ -194,16 +194,19 @@ class StartGame(tk.Frame):
                            command=lambda: controller.show_frame("HomePage"))
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
-        
 
         # Function to take input and format tweet
         def StartGameTweet():
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            
+            # Tweet with photo
             status = api.PostUpdate('Mount Union (' + recordEntry.get() + ') takes on ' + opponentEntry.get()
                         + ' in a ' + oacNonConf.get() + ' ' + numGames.get() + ' today.\n\n\t' 
                         + emoji.emojize(':round_pushpin:') + ': ' + locationEntry.get() + '\n' 
                         + emoji.emojize(':alarm_clock:') + ': ' + timeEntry.get() + '\n'
                         + emoji.emojize(':link:') + ': ' + gameLinkEntry.get() 
-                        + '\n\n\tYou can follow live tweets for today\'s game at #UMUBaseball2020')
+                        + '\n\n\tYou can follow live tweets for today\'s game at #UMUBaseball2020', media=filename)
 
         # Drop down menus
         oacNonConf = tk.StringVar(self)
@@ -216,6 +219,7 @@ class StartGame(tk.Frame):
 
         # Buttons
         sendTweetButton = tk.Button(self, text="Send Tweet", command=StartGameTweet)
+        #imagePickerButton = tk.Button(self, text"Choose Media...", )
 
         # Labels
         oppenentLabel = tk.Label(self, text="Opponent:")
