@@ -645,13 +645,34 @@ class CustomTweet(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="Lineup", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         # Get input for tweet
         def GetTextInput():
@@ -673,30 +694,28 @@ class CustomTweet(tk.Frame):
             self.controller.show_frame("TweetSentCheck")
 
         # Label
-        mediaLabel = tk.Label(self, text='Include media?')
+        mediaLabel = tk.Label(self, text='Include media?', font=('Helvetica', 20))
 
         # Radio Button
         mediaOption = tk.StringVar(self)
-        yesMedia = tk.Radiobutton(self, text='Yes', variable=mediaOption, value='Yes')
-        noMedia = tk.Radiobutton(self, text='No', variable=mediaOption, value='No')
+        yesMedia = tk.Radiobutton(self, text='Yes', variable=mediaOption, value='Yes', font=('Helvetica', 20))
+        noMedia = tk.Radiobutton(self, text='No', variable=mediaOption, value='No', font=('Helvetica', 20))
 
         # Text Field
-        inputTextField = tk.Text(self, width=50, height=25, wrap="word")
+        inputTextField = tk.Text(self, width=50, height=10, wrap="word", font=('Helvetica', 20))
 
         # Button
-        sendTweetButton = tk.Button(self, text='Send Tweet', command=Custom)
+        sendTweetButton = tk.Button(self, text='Send Tweet', command=Custom,  bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30))
 
         # Placement
         mediaLabel.place(x=150, y=150)
 
-        yesMedia.place(x=250, y=150)
-        noMedia.place(x=350, y=150)
+        yesMedia.place(x=350, y=150)
+        noMedia.place(x=450, y=150)
 
-        inputTextField.place(x=50, y=250)
+        inputTextField.place(x=100, y=200)
 
-        sendTweetButton.place(x=400, y=250)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        sendTweetButton.place(x=150, y=600)
 
 class TweetSentCheck(tk.Frame):
     def __init__(self, parent, controller):
