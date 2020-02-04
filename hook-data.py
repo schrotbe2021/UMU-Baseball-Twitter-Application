@@ -1,5 +1,5 @@
 hiddenimports = [
-    "twitter.*",
+    "python-twitter.*",
     "Pillow.Image",
     "Pillow.ImageTk",
     "emoji.*"
