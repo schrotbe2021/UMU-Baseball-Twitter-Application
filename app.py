@@ -90,36 +90,57 @@ class ChooseTweet(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="Choose Tweet", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
 
-        startGameButton = tk.Button(self, text="Start Game",
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Live Tweet In-Game @umubaseball', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        startGameButton = tk.Button(self, text="Start Game", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("StartGame"))
-        scoringChangeButton = tk.Button(self, text="Scoring Change",
+                            
+        scoringChangeButton = tk.Button(self, text="Scoring\nChange", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("ScoringChange"))
 
-        endGameButton = tk.Button(self, text="End Game",
+        endGameButton = tk.Button(self, text="End Game", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("EndGame"))
 
-        subButton = tk.Button(self, text="Substitute",
+        subButton = tk.Button(self, text="Substitute", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("SubPage"))
         
-        customButton = tk.Button(self, text='Custom Tweet', 
+        customButton = tk.Button(self, text='Custom\nTweet', bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white', 
                             command=lambda: controller.show_frame("CustomTweet"))
         
-        homeButton = tk.Button(self, text="<-- Back",
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
 
-        lineupButton = tk.Button(self, text="Lineup", 
+        lineupButton = tk.Button(self, text="Lineup", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame('Lineup'))
+
+        yValue = 200
         
-        customButton.place(x=300, y=100)
-        homeButton.place(x=150, y=45)
-        startGameButton.place(x=300, y=45)
-        scoringChangeButton.place(x=450, y=45)
-        subButton.place(x=600, y=45)
-        endGameButton.place(x=750, y=45)
-        lineupButton.place(x=900, y=45)
+        customButton.place(x=675, y=400)
+        homeButton.place(x=825, y=18)
+        startGameButton.place(x=25, y=120)
+        scoringChangeButton.place(x=675, y=120)
+        subButton.place(x=350, y=400)
+        endGameButton.place(x=25, y=400)
+        lineupButton.place(x=350, y=120)
 
 class SubPage(tk.Frame):
 
@@ -219,7 +240,7 @@ class StartGame(tk.Frame):
                         + emoji.emojize(':link:') + ': ' + gameLinkEntry.get() 
                         + '\n\n\tYou can follow live tweets for today\'s game at #UMUBaseball2020', media=filename)
         
-        self.controller.show_frame("TweetSentCheck")
+            self.controller.show_frame('TweetSentCheck')
 
         # Drop down menus
         oacNonConf = tk.StringVar(self)
@@ -602,10 +623,13 @@ class TweetSentCheck(tk.Frame):
 
         # Sets label to confirm that tweet was sent.
         def LastTweet():
-            tweet = api.GetUserTimeline(screen_name ='umubaseball', count=1)
-            returnedTweet = [i.AsDict() for i in tweet]
-            setLabel = returnedTweet[0]['text']
-            latestTweetLabel.config(text=setLabel)
+            try:
+                tweet = api.GetUserTimeline(screen_name ='umubaseball', count=1)
+                returnedTweet = [i.AsDict() for i in tweet]
+                setLabel = returnedTweet[0]['text']
+                latestTweetLabel.config(text=setLabel)
+            except:
+                latestTweetLabel.config(text="Tweet contains emoji. Check twitter pager to verify.")
 
         # Deletes most recent tweet
         def DeleteTweet():
