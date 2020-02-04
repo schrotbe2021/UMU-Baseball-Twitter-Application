@@ -30,7 +30,7 @@ class UMUTwitterApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (VerifyAccount, ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup, CustomTweet, TweetSentCheck):
+        for F in (ChooseTweet, StartGame, ScoringChange, HomePage, EndGame, SubPage, Lineup, CustomTweet, TweetSentCheck):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -40,50 +40,63 @@ class UMUTwitterApp(tk.Tk):
             # will be the one that is visible.
             frame.grid(row=0, column=0, sticky="nsew")
 
-        self.show_frame("VerifyAccount")
+        self.show_frame("HomePage")
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         frame = self.frames[page_name]
         frame.tkraise()
 
-
-class VerifyAccount(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-        label = tk.Label(self, text="Verify Twitter Account", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-
-        def FilePicker():
-            filename = tkFileDialog.askopenfilename(initialdir = "./images", title = "Select file",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
-            img = Image.open(filename)
-            img = img.resize((300, 250), Image.ANTIALIAS)
-            tkImage = ImageTk.PhotoImage(img)
-            displayImg = tk.Label(self, image = tkImage)
-            displayImg.image = tkImage
-            displayImg.place(x=50, y=200)
-        
-        filePickerButton = tk.Button(self, text='Choose File', command=FilePicker)
-        filePickerButton.place(x=100, y=10)
-        
-        button3 = tk.Button(self, text="Home Page", bd=0, bg='white',
-                            command=lambda: controller.show_frame("TweetSentCheck"))
-    
-        button3.pack()
-
-
 class HomePage(tk.Frame):
     
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="Home Page", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Choose Tweet",
-                           command=lambda: controller.show_frame("ChooseTweet"))
-        button.pack()
+
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Live Tweet In-Game @umubaseball', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
+                           command=lambda: controller.show_frame("HomePage"))
+        homeButton.place(x=825, y=18)
+
+        # Header Photo
+        headerPath = "./images/style/header.png"
+        header = Image.open(headerPath)
+        header = header.resize((1000, 350), Image.ANTIALIAS)
+        self.headerPhoto = ImageTk.PhotoImage(header)
+        canvas.create_image(0, 100, image=self.headerPhoto, anchor="nw")
+
+        # Label
+        author = tk.Label(self, text='**Created by Ben Schroth       Questions/Comments: schrotbe2021@mountunion.edu**',
+                            fg='#542A6D', font=('Helvetica', 10))
+
+        # Button
+        chooseTweetButton = tk.Button(self, text="Choose Tweet", bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30),
+                                command=lambda: controller.show_frame("ChooseTweet"))
+        
+        # Placement
+        author.place(x=240, y=700)
+
+        chooseTweetButton.place(x=150, y=500)
 
 class ChooseTweet(tk.Frame):
 
@@ -481,7 +494,7 @@ class EndGame(tk.Frame):
         canvas.create_line(150, 10, 150, 90, fill='white')
         
         # Header Label
-        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel = tk.Label(self, text='End Game Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
         chooseTweetLabel.place(x=175, y=30)
 
         # Home and back page Button
@@ -575,7 +588,7 @@ class SubPage(tk.Frame):
         canvas.create_line(150, 10, 150, 90, fill='white')
         
         # Header Label
-        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel = tk.Label(self, text='Substitution Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
         chooseTweetLabel.place(x=175, y=30)
 
         # Home and back page Button
@@ -662,7 +675,7 @@ class CustomTweet(tk.Frame):
         canvas.create_line(150, 10, 150, 90, fill='white')
         
         # Header Label
-        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel = tk.Label(self, text='Custom Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
         chooseTweetLabel.place(x=175, y=30)
 
         # Home and back page Button
@@ -739,7 +752,7 @@ class TweetSentCheck(tk.Frame):
         canvas.create_line(150, 10, 150, 90, fill='white')
         
         # Header Label
-        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel = tk.Label(self, text='Tweet Sent Check', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
         chooseTweetLabel.place(x=175, y=30)
 
         # Home and back page Button
