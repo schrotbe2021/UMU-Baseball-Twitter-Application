@@ -464,7 +464,7 @@ class EndGame(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-# Page Styling
+    # Page Styling
         # Top Purple Bar
         canvas = tk.Canvas(self, width=1000, height=750)
         canvas.pack()
@@ -516,44 +516,41 @@ class EndGame(tk.Frame):
             self.controller.show_frame("TweetSentCheck")
 
         # Button
-        sendTweet = tk.Button(self, text='Send Tweet', command=EndGameTweet)
+        sendTweet = tk.Button(self, text='Send Tweet', command=EndGameTweet, bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30))
 
         # Radio Button
         whoWon = tk.StringVar(self)
-        mountWin = tk.Radiobutton(self, text='Mount Union', variable=whoWon, value='Mount Union')
-        opponentWin = tk.Radiobutton(self, text='Opponent', variable=whoWon, value='Opponent')
+        mountWin = tk.Radiobutton(self, text='Mount Union', variable=whoWon, value='Mount Union', font=('Helvetica', 20))
+        opponentWin = tk.Radiobutton(self, text='Opponent', variable=whoWon, value='Opponent', font=('Helvetica', 20))
 
         # Label
-        opponentLabel = tk.Label(self, text="Opponent:")
-        mountRecordLabel = tk.Label(self, text="Record:")
-        mountScoreLabel = tk.Label(self, text="Mount Score:")
-        opponentScoreLabel = tk.Label(self, text="Opponent Score:")
-        winnerLabel = tk.Label(self, text="Winning Team:")
+        opponentLabel = tk.Label(self, text="Opponent:", font=('Helvetica', 20))
+        mountRecordLabel = tk.Label(self, text="Record:", font=('Helvetica', 20))
+        mountScoreLabel = tk.Label(self, text="Mount Score:", font=('Helvetica', 20))
+        opponentScoreLabel = tk.Label(self, text="Opponent Score:", font=('Helvetica', 20))
+        winnerLabel = tk.Label(self, text="Winning Team:", font=('Helvetica', 20))
         
         # Entry
-        opponentEntry = tk.Entry(self, width=50)
-        mountRecordEntry = tk.Entry(self, width=50)
-        mountScoreEntry = tk.Entry(self, width=50)
-        opponentScoreEntry = tk.Entry(self, width=50)
+        opponentEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        mountRecordEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        mountScoreEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        opponentScoreEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
 
         # Placement
-        opponentLabel.place(x=150, y=150)
-        mountRecordLabel.place(x=150, y=175)
-        mountScoreLabel.place(x=150, y=200)
-        opponentScoreLabel.place(x=150, y=225)
-        winnerLabel.place(x=150, y=125)
+        winnerLabel.place(x=150, y=150)
+        opponentLabel.place(x=150, y=200)
+        mountRecordLabel.place(x=150, y=250)
+        mountScoreLabel.place(x=150, y=300)
+        opponentScoreLabel.place(x=150, y=350)
+        
+        mountWin.place(x=350, y=150)
+        opponentWin.place(x=550, y=150)
+        opponentEntry.place(x=375, y=200)
+        mountRecordEntry.place(x=375, y=250)
+        mountScoreEntry.place(x=375, y=300)
+        opponentScoreEntry.place(x=375, y=350)
 
-        opponentEntry.place(x=250, y=150)
-        mountRecordEntry.place(x=250, y=175)
-        mountScoreEntry.place(x=250, y=200)
-        opponentScoreEntry.place(x=250, y=225)
-
-        mountWin.place(x=200, y=125)
-        opponentWin.place(x=300, y=125)
-
-        sendTweet.place(x=200, y=300)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)      
+        sendTweet.place(x=150, y=600)    
 
 class SubPage(tk.Frame):
 
