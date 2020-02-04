@@ -558,13 +558,34 @@ class SubPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="Substitute", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         # Tweet based on chekcbox whether it is a pitching change or pinch hit
         def TweetType():
@@ -587,40 +608,37 @@ class SubPage(tk.Frame):
             self.controller.show_frame("TweetSentCheck")
 
         #Button
-        sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
+        sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet,  bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30))
 
         # Radio Button
         subType = tk.StringVar(self)
-        pitchingSub = tk.Radiobutton(self, text="Pitching Substitution", variable=subType, value="Pitching Substitution")
-        pinchHit = tk.Radiobutton(self, text="Pinch Hit", variable=subType, value="Pinch Hit")
+        pitchingSub = tk.Radiobutton(self, text="Pitching Substitution", variable=subType, value="Pitching Substitution", font=('Helvetica', 20))
+        pinchHit = tk.Radiobutton(self, text="Pinch Hit", variable=subType, value="Pinch Hit", font=('Helvetica', 20))
 
         # Label
-        subInLabel = tk.Label(self, text="Player:")
-        subOutLabel = tk.Label(self, text="Subbing for:")
-        inningLabel = tk.Label(self, text="Inning:")
-        subTypeLabel = tk.Label(self, text="Substitution type:")
+        subInLabel = tk.Label(self, text="Player:", font=('Helvetica', 20))
+        subOutLabel = tk.Label(self, text="Subbing for:", font=('Helvetica', 20))
+        inningLabel = tk.Label(self, text="Inning:", font=('Helvetica', 20))
+        subTypeLabel = tk.Label(self, text="Substitution type:", font=('Helvetica', 20))
 
         #Entry
-        subInEntry = tk.Entry(self, width=25)
-        subOutEntry = tk.Entry(self, width=25)
-        inningEntry = tk.Entry(self, width=25)
+        subInEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        subOutEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        inningEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
 
         # Placements
-        subInLabel.place(x=150, y=150)
-        subOutLabel.place(x=450, y=150)
-        inningLabel.place(x=150, y=175)
-        subTypeLabel.place(x=150, y=125)
+        subTypeLabel.place(x=150, y=150)
+        subInLabel.place(x=150, y=200)
+        subOutLabel.place(x=150, y=250)
+        inningLabel.place(x=150, y=300)
+        
+        pitchingSub.place(x=350, y=150)
+        pinchHit.place(x=650, y=150)
+        subInEntry.place(x=350, y=200)
+        subOutEntry.place(x=350, y=250)
+        inningEntry.place(x=350, y=300)
 
-        subInEntry.place(x=225, y=150)
-        subOutEntry.place(x=550, y=150)
-        inningEntry.place(x=225, y=175)
-
-        pitchingSub.place(x=275, y=125)
-        pinchHit.place(x=450, y=125)
-
-        sendTweet.place(x=300, y=300)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        sendTweet.place(x=150, y=600)
 
 class CustomTweet(tk.Frame):
     def __init__(self, parent, controller):
