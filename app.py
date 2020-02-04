@@ -148,13 +148,34 @@ class StartGame(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page setup
-        label = tk.Label(self, text="Start Game Page", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Start Game Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         # Function to take input and format tweet
         def StartGameTweet():
@@ -181,47 +202,45 @@ class StartGame(tk.Frame):
         numGamesDropDown = tk.OptionMenu(self, numGames, "doubleheader", "matchup")
 
         # Buttons
-        sendTweetButton = tk.Button(self, text="Send Tweet", command=StartGameTweet)
-        #imagePickerButton = tk.Button(self, text"Choose Media...", )
+        sendTweetButton = tk.Button(self, text="Send Tweet", bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30),
+                            command=StartGameTweet)
 
         # Labels
-        oppenentLabel = tk.Label(self, text="Opponent:")
-        locationLabel = tk.Label(self, text="Location:")
-        timeLabel = tk.Label(self, text="Time:")
-        recordLabel = tk.Label(self, text="Record")
-        oacOrNonLabel = tk.Label(self, text="Conf Game:")
-        numGamesLabel = tk.Label(self, text="# of Games:")
-        gameLinkLabel = tk.Label(self, text="Game Link:")
+        oppenentLabel = tk.Label(self, text="Opponent:", font=('Helvetica', 20))
+        locationLabel = tk.Label(self, text="Location:", font=('Helvetica', 20))
+        timeLabel = tk.Label(self, text="Time:", font=('Helvetica', 20))
+        recordLabel = tk.Label(self, text="Record:", font=('Helvetica', 20))
+        oacOrNonLabel = tk.Label(self, text="Conf Game:", font=('Helvetica', 20))
+        numGamesLabel = tk.Label(self, text="# of Games:", font=('Helvetica', 20))
+        gameLinkLabel = tk.Label(self, text="Game Link:", font=('Helvetica', 20))
 
         # Entries
-        opponentEntry = tk.Entry(self, width=25)
-        locationEntry = tk.Entry(self, width=25)
-        timeEntry = tk.Entry(self, width=25)
-        recordEntry = tk.Entry(self, width=25)
-        gameLinkEntry = tk.Entry(self, width = 50)
+        opponentEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        locationEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        timeEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        recordEntry = tk.Entry(self, width=25, font=('Helvetica', 20))
+        gameLinkEntry = tk.Entry(self, width =25, font=('Helvetica', 20))
 
         # Placement
         xLabel = 150
-        recordLabel.place(x=xLabel, y=75)
-        timeLabel.place(x=xLabel, y=150)
-        locationLabel.place(x=xLabel, y=125)
-        oppenentLabel.place(x=xLabel, y=100)
-        oacOrNonLabel.place(x=xLabel, y=200)
-        numGamesLabel.place(x=xLabel, y=225)
-        gameLinkLabel.place(x=xLabel, y=250)
+        recordLabel.place(x=xLabel, y=150)
+        oppenentLabel.place(x=xLabel, y=200)
+        timeLabel.place(x=xLabel, y=250)
+        oacOrNonLabel.place(x=xLabel, y=300)
+        numGamesLabel.place(x=xLabel, y=350)
+        locationLabel.place(x=xLabel, y=400)
+        gameLinkLabel.place(x=xLabel, y=450)
         
-        timeEntry.place(x=250, y=150)
-        locationEntry.place(x=250, y=125)
-        opponentEntry.place(x=250, y=100)
-        recordEntry.place(x=250, y=75)
-        gameLinkEntry.place(x=250, y=250)
+        entryX = 300
+        recordEntry.place(x=entryX, y=150)
+        opponentEntry.place(x=entryX, y=200)
+        timeEntry.place(x=entryX, y=250)
+        oacDropDown.place(x=entryX, y=300)
+        numGamesDropDown.place(x=entryX, y=350)
+        locationEntry.place(x=entryX, y=400)
+        gameLinkEntry.place(x=entryX, y=450)
         
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
-        sendTweetButton.place(x=500, y=500)
-
-        oacDropDown.place(x=250, y=200)
-        numGamesDropDown.place(x=250, y=225)
+        sendTweetButton.place(x=150, y=550)
 
 class Lineup(tk.Frame):
 
