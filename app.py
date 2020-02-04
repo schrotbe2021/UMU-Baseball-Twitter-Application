@@ -111,12 +111,24 @@ class ChooseTweet(tk.Frame):
         chooseTweetLabel = tk.Label(self, text='Live Tweet In-Game @umubaseball', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
         chooseTweetLabel.place(x=175, y=30)
 
+        # Home page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
+                           command=lambda: controller.show_frame("HomePage"))
+        homeButton.place(x=825, y=18)
+
+        # Top row of buttons
         startGameButton = tk.Button(self, text="Start Game", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("StartGame"))
-                            
+        lineupButton = tk.Button(self, text="Lineup", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
+                            command=lambda: controller.show_frame('Lineup'))
         scoringChangeButton = tk.Button(self, text="Scoring\nChange", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("ScoringChange"))
+        
+        startGameButton.place(x=25, y=120)
+        lineupButton.place(x=350, y=120)
+        scoringChangeButton.place(x=675, y=120)
 
+        # Bottom row of Buttons
         endGameButton = tk.Button(self, text="End Game", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
                             command=lambda: controller.show_frame("EndGame"))
 
@@ -126,92 +138,9 @@ class ChooseTweet(tk.Frame):
         customButton = tk.Button(self, text='Custom\nTweet', bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white', 
                             command=lambda: controller.show_frame("CustomTweet"))
         
-        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
-                           command=lambda: controller.show_frame("HomePage"))
-
-        lineupButton = tk.Button(self, text="Lineup", bd=0, fg='#542A6D',font=('Helvetica',40), width=9, height= 4, bg='white',
-                            command=lambda: controller.show_frame('Lineup'))
-
-        yValue = 200
-        
-        customButton.place(x=675, y=400)
-        homeButton.place(x=825, y=18)
-        startGameButton.place(x=25, y=120)
-        scoringChangeButton.place(x=675, y=120)
-        subButton.place(x=350, y=400)
         endGameButton.place(x=25, y=400)
-        lineupButton.place(x=350, y=120)
-
-class SubPage(tk.Frame):
-
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
-        self.controller = controller
-
-        # Page Setup
-        label = tk.Label(self, text="Substitute", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
-                           command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
-                            command=lambda: controller.show_frame("ChooseTweet"))
-
-        # Tweet based on chekcbox whether it is a pitching change or pinch hit
-        def TweetType():
-            if subType.get() == str('Pitching Substitution'):
-                return (subInEntry.get() + ' takes the mound for ' + subOutEntry.get() + ' in the '
-                + inningEntry.get() + ' inning.\n\n'
-                + '#UMUBaseball2020 | #D3Baseball')
-            else:
-                return (subInEntry.get() + ' will pinch hit for ' + subOutEntry.get() + ' in the '
-                + inningEntry.get() + ' inning for Mount Union.\n\n'
-                + '#UMUBaseball2020 | #D3Baseball')
-        
-        def SubstitutionTweet():
-            # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
-
-            # Tweet with photo
-            api.PostUpdate(TweetType(), media=filename)
-
-            self.controller.show_frame("TweetSentCheck")
-
-        #Button
-        sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
-
-        # Radio Button
-        subType = tk.StringVar(self)
-        pitchingSub = tk.Radiobutton(self, text="Pitching Substitution", variable=subType, value="Pitching Substitution")
-        pinchHit = tk.Radiobutton(self, text="Pinch Hit", variable=subType, value="Pinch Hit")
-
-        # Label
-        subInLabel = tk.Label(self, text="Player:")
-        subOutLabel = tk.Label(self, text="Subbing for:")
-        inningLabel = tk.Label(self, text="Inning:")
-        subTypeLabel = tk.Label(self, text="Substitution type:")
-
-        #Entry
-        subInEntry = tk.Entry(self, width=25)
-        subOutEntry = tk.Entry(self, width=25)
-        inningEntry = tk.Entry(self, width=25)
-
-        # Placements
-        subInLabel.place(x=150, y=150)
-        subOutLabel.place(x=450, y=150)
-        inningLabel.place(x=150, y=175)
-        subTypeLabel.place(x=150, y=125)
-
-        subInEntry.place(x=225, y=150)
-        subOutEntry.place(x=550, y=150)
-        inningEntry.place(x=225, y=175)
-
-        pitchingSub.place(x=275, y=125)
-        pinchHit.place(x=450, y=125)
-
-        sendTweet.place(x=300, y=300)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
-
+        subButton.place(x=350, y=400)
+        customButton.place(x=675, y=400)
 
 class StartGame(tk.Frame):
 
@@ -294,7 +223,92 @@ class StartGame(tk.Frame):
         oacDropDown.place(x=250, y=200)
         numGamesDropDown.place(x=250, y=225)
 
+class Lineup(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        # Page Setup
+        label = tk.Label(self, text="Lineup", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        homeButton = tk.Button(self, text="Home",
+                           command=lambda: controller.show_frame("HomePage"))
+        backButton = tk.Button(self, text="<-- Back",
+                            command=lambda: controller.show_frame("ChooseTweet"))
+
+
+        # Arrays to set up label and entries widgets for lineup and position
+        lineup = ['1:', '2:', '3:', '4:', '5:', '6:', '7:', '8:', '9:', 'P:']
+        lineUpEntry = []
+        posOptionArray = []
+
+        yLabel = 150  # Control for yPos of widget
+        # For loop to instantiate and place labels and entries for lineup tweet
+        for i in range(len(lineup)):
+            yLabel += 25 # Increments yPos to display widgets correctly
+
+            # Widget to be placed through each iteration
+            label = tk.Label(self, text=lineup[i])
+            entry = tk.Entry(self, width = 20)
+
+            posOption = tk.StringVar(self)
+            posOption.set('Position...')
+            posOpMenu = tk.OptionMenu(self, posOption, 'C', '1B', '2B', 'SS', '3B', 'LF', 'CF', 'RF', 'DH', 'P')
+            posOpMenu.config(width=10)
+
+            # Placement of widget through each iteration
+            entry.place(x=175, y=yLabel)
+            label.place(x=150, y=yLabel)
+            posOpMenu.place(x=375, y=yLabel)
+
+            # Adds widget to array
+            lineUpEntry.append(entry)
+            posOptionArray.append(posOption)
+
         
+        # PlayerString() takes in lineUpEntry and posOptionArray and returns string for tweet with lineup
+        def PlayerString():
+            result = ''
+            for i in range(len(lineup)):
+                if posOptionArray[i].get() == 'P':
+                    result += ('P - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                else:
+                    result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
+                
+            return result
+
+        def LineupTweet():
+            # Pick photo for tweet in dialog
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+
+            # Tweet with photo
+            api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
+            + PlayerString() + '\n\n'
+            + '#UMUBaseball2020 | #D3Baseball', media=filename)
+
+            self.controller.show_frame("TweetSentCheck")
+
+
+        # Button
+        sendTweetButton = tk.Button(self, text='Send Tweet', command=LineupTweet)
+
+
+        # Label
+        opponentLabel = tk.Label(self, text='Opponent:')   
+
+        # Entry
+        opponentEntry = tk.Entry(self, width=50)
+
+        # Placement
+        opponentLabel.place(x=150, y= 150)
+
+        opponentEntry.place(x=250, y=150)    
+
+        sendTweetButton.place(x=200, y=500)
+        backButton.place(x=50, y=45)
+        homeButton.place(x=150, y=45)
+
 class ScoringChange(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -462,91 +476,75 @@ class EndGame(tk.Frame):
 
         sendTweet.place(x=200, y=300)
         backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        homeButton.place(x=150, y=45)      
 
-class Lineup(tk.Frame):
+class SubPage(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
         # Page Setup
-        label = tk.Label(self, text="Lineup", font=controller.title_font)
+        label = tk.Label(self, text="Substitute", font=controller.title_font)
         label.pack(side="top", fill="x", pady=10)
         homeButton = tk.Button(self, text="Home",
                            command=lambda: controller.show_frame("HomePage"))
         backButton = tk.Button(self, text="<-- Back",
                             command=lambda: controller.show_frame("ChooseTweet"))
 
-
-        # Arrays to set up label and entries widgets for lineup and position
-        lineup = ['1:', '2:', '3:', '4:', '5:', '6:', '7:', '8:', '9:', 'P:']
-        lineUpEntry = []
-        posOptionArray = []
-
-        yLabel = 150  # Control for yPos of widget
-        # For loop to instantiate and place labels and entries for lineup tweet
-        for i in range(len(lineup)):
-            yLabel += 25 # Increments yPos to display widgets correctly
-
-            # Widget to be placed through each iteration
-            label = tk.Label(self, text=lineup[i])
-            entry = tk.Entry(self, width = 20)
-
-            posOption = tk.StringVar(self)
-            posOption.set('Position...')
-            posOpMenu = tk.OptionMenu(self, posOption, 'C', '1B', '2B', 'SS', '3B', 'LF', 'CF', 'RF', 'DH', 'P')
-            posOpMenu.config(width=10)
-
-            # Placement of widget through each iteration
-            entry.place(x=175, y=yLabel)
-            label.place(x=150, y=yLabel)
-            posOpMenu.place(x=375, y=yLabel)
-
-            # Adds widget to array
-            lineUpEntry.append(entry)
-            posOptionArray.append(posOption)
-
+        # Tweet based on chekcbox whether it is a pitching change or pinch hit
+        def TweetType():
+            if subType.get() == str('Pitching Substitution'):
+                return (subInEntry.get() + ' takes the mound for ' + subOutEntry.get() + ' in the '
+                + inningEntry.get() + ' inning.\n\n'
+                + '#UMUBaseball2020 | #D3Baseball')
+            else:
+                return (subInEntry.get() + ' will pinch hit for ' + subOutEntry.get() + ' in the '
+                + inningEntry.get() + ' inning for Mount Union.\n\n'
+                + '#UMUBaseball2020 | #D3Baseball')
         
-        # PlayerString() takes in lineUpEntry and posOptionArray and returns string for tweet with lineup
-        def PlayerString():
-            result = ''
-            for i in range(len(lineup)):
-                if posOptionArray[i].get() == 'P':
-                    result += ('P - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
-                else:
-                    result += (str(i+1) + ' - ' + str(lineUpEntry[i].get()) + ' (' + str(posOptionArray[i].get()) + ')\n')
-                
-            return result
-
-        def LineupTweet():
+        def SubstitutionTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
-            api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
-            + PlayerString() + '\n\n'
-            + '#UMUBaseball2020 | #D3Baseball', media=filename)
+            api.PostUpdate(TweetType(), media=filename)
 
             self.controller.show_frame("TweetSentCheck")
 
+        #Button
+        sendTweet = tk.Button(self, text="Send Tweet", command=SubstitutionTweet)
 
-        # Button
-        sendTweetButton = tk.Button(self, text='Send Tweet', command=LineupTweet)
-
+        # Radio Button
+        subType = tk.StringVar(self)
+        pitchingSub = tk.Radiobutton(self, text="Pitching Substitution", variable=subType, value="Pitching Substitution")
+        pinchHit = tk.Radiobutton(self, text="Pinch Hit", variable=subType, value="Pinch Hit")
 
         # Label
-        opponentLabel = tk.Label(self, text='Opponent:')   
+        subInLabel = tk.Label(self, text="Player:")
+        subOutLabel = tk.Label(self, text="Subbing for:")
+        inningLabel = tk.Label(self, text="Inning:")
+        subTypeLabel = tk.Label(self, text="Substitution type:")
 
-        # Entry
-        opponentEntry = tk.Entry(self, width=50)
+        #Entry
+        subInEntry = tk.Entry(self, width=25)
+        subOutEntry = tk.Entry(self, width=25)
+        inningEntry = tk.Entry(self, width=25)
 
-        # Placement
-        opponentLabel.place(x=150, y= 150)
+        # Placements
+        subInLabel.place(x=150, y=150)
+        subOutLabel.place(x=450, y=150)
+        inningLabel.place(x=150, y=175)
+        subTypeLabel.place(x=150, y=125)
 
-        opponentEntry.place(x=250, y=150)    
+        subInEntry.place(x=225, y=150)
+        subOutEntry.place(x=550, y=150)
+        inningEntry.place(x=225, y=175)
 
-        sendTweetButton.place(x=200, y=500)
+        pitchingSub.place(x=275, y=125)
+        pinchHit.place(x=450, y=125)
+
+        sendTweet.place(x=300, y=300)
         backButton.place(x=50, y=45)
         homeButton.place(x=150, y=45)
 
