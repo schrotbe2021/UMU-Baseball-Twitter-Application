@@ -69,7 +69,7 @@ class VerifyAccount(tk.Frame):
         filePickerButton.place(x=100, y=10)
         
         button3 = tk.Button(self, text="Home Page", bd=0, bg='white',
-                            command=lambda: controller.show_frame("HomePage"))
+                            command=lambda: controller.show_frame("TweetSentCheck"))
     
         button3.pack()
 
@@ -722,13 +722,34 @@ class TweetSentCheck(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="Lineup", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         # Sets label to confirm that tweet was sent.
         def LastTweet():
@@ -747,19 +768,18 @@ class TweetSentCheck(tk.Frame):
             api.DestroyStatus(returnedTweet[0]['id'])
 
         # Button
-        checkTweet = tk.Button(self, text='Check Tweet', command=LastTweet)
-        deleteTweet = tk.Button(self, text='Delete Tweet', command=DeleteTweet)
+        checkTweet = tk.Button(self, text='Check Tweet', command=LastTweet, bg='white', bd=0, width=30, height=5, fg='#542A6D')
+        deleteTweet = tk.Button(self, text='Delete Tweet', command=DeleteTweet, bg='white', bd=0, width=30, height=5, fg='#542A6D')
 
         # Label
-        latestTweetLabel = tk.Label(self, text='Press Check Tweet to see latest tweet')
+        latestTweetLabel = tk.Label(self, text='Press Check Tweet to see latest tweet', bg='white', fg='#542A6D', 
+                                    wraplength=750, font=('Helvetica', 20), width=60, height=15)
         
         # Placement
-        latestTweetLabel.place(x=150, y=150)
+        latestTweetLabel.place(x=50, y=120)
 
-        deleteTweet.place(x=200, y=450)
-        checkTweet.place(x=150, y=450)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        checkTweet.place(x=200, y=600)
+        deleteTweet.place(x=525, y=600)
 
 if __name__ == "__main__":
     app = UMUTwitterApp()
