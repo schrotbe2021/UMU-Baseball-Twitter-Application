@@ -248,28 +248,48 @@ class Lineup(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="Lineup", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
-                           command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
-                            command=lambda: controller.show_frame("ChooseTweet"))
+         # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
 
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Lineup Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
+                           command=lambda: controller.show_frame("HomePage"))
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
+                            command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         # Arrays to set up label and entries widgets for lineup and position
         lineup = ['1:', '2:', '3:', '4:', '5:', '6:', '7:', '8:', '9:', 'P:']
         lineUpEntry = []
         posOptionArray = []
 
-        yLabel = 150  # Control for yPos of widget
+        yLabel = 120  # Control for yPos of widget
         # For loop to instantiate and place labels and entries for lineup tweet
         for i in range(len(lineup)):
-            yLabel += 25 # Increments yPos to display widgets correctly
+            yLabel += 40 # Increments yPos to display widgets correctly
 
             # Widget to be placed through each iteration
-            label = tk.Label(self, text=lineup[i])
-            entry = tk.Entry(self, width = 20)
+            label = tk.Label(self, text=lineup[i], font=('Helvetica', 20))
+            entry = tk.Entry(self, width = 20, font=('Helvetica', 20))
 
             posOption = tk.StringVar(self)
             posOption.set('Position...')
@@ -277,9 +297,9 @@ class Lineup(tk.Frame):
             posOpMenu.config(width=10)
 
             # Placement of widget through each iteration
-            entry.place(x=175, y=yLabel)
+            entry.place(x=200, y=yLabel)
             label.place(x=150, y=yLabel)
-            posOpMenu.place(x=375, y=yLabel)
+            posOpMenu.place(x=525, y=yLabel)
 
             # Adds widget to array
             lineUpEntry.append(entry)
@@ -297,6 +317,7 @@ class Lineup(tk.Frame):
                 
             return result
 
+        # Tweet for Lineup tweet
         def LineupTweet():
             # Pick photo for tweet in dialog
             filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
@@ -310,23 +331,21 @@ class Lineup(tk.Frame):
 
 
         # Button
-        sendTweetButton = tk.Button(self, text='Send Tweet', command=LineupTweet)
-
+        sendTweetButton = tk.Button(self, text='Send Tweet', bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30), 
+                                    command=LineupTweet)
 
         # Label
-        opponentLabel = tk.Label(self, text='Opponent:')   
+        opponentLabel = tk.Label(self, text='Opponent:', font=('Helvetica', 20))   
 
         # Entry
-        opponentEntry = tk.Entry(self, width=50)
+        opponentEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
 
         # Placement
-        opponentLabel.place(x=150, y= 150)
+        opponentLabel.place(x=150, y= 120)
 
-        opponentEntry.place(x=250, y=150)    
+        opponentEntry.place(x=300, y=120)    
 
-        sendTweetButton.place(x=200, y=500)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        sendTweetButton.place(x=150, y=600)
 
 class ScoringChange(tk.Frame):
 
