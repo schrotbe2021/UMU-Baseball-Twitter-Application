@@ -248,7 +248,7 @@ class Lineup(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-         # Page Styling
+    # Page Styling
         # Top Purple Bar
         canvas = tk.Canvas(self, width=1000, height=750)
         canvas.pack()
@@ -353,14 +353,34 @@ class ScoringChange(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="Scoring Change Game", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
+    # Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
         
-        homeButton = tk.Button(self, text="Home",
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         def WhoScored():
             if whoScored.get() == str('Mount Union'):
@@ -383,12 +403,13 @@ class ScoringChange(tk.Frame):
             self.controller.show_frame("TweetSentCheck")
 
         # Buttons
-        sendTweetButton = tk.Button(self, text='Send Tweet', command=ScoringChangeTweet)
+        sendTweetButton = tk.Button(self, text='Send Tweet', bg='white', bd=0, width=30, height=2, fg='#542A6D', font=('Helvetica', 30), 
+                            command=ScoringChangeTweet)
 
         # Radio Button
         whoScored = tk.StringVar(self)
-        mountScoredRB = tk.Radiobutton(self, text="Mount Union", variable=whoScored, value="Mount Union")
-        opponentScoredRB = tk.Radiobutton(self, text="Opponent", variable=whoScored, value="Opponent")
+        mountScoredRB = tk.Radiobutton(self, text="Mount Union", variable=whoScored, value="Mount Union", font=('Helvetica', 20))
+        opponentScoredRB = tk.Radiobutton(self, text="Opponent", variable=whoScored, value="Opponent", font=('Helvetica', 20))
 
         # Option Menus
         hitType = tk.StringVar(self)
@@ -396,49 +417,46 @@ class ScoringChange(tk.Frame):
         hitTypeMenu = tk.OptionMenu(self, hitType, 'single', 'double', 'triple', 'home run', 'walk')
 
         # Labels
-        playerNameLabel = tk.Label(self, text='Player Name:')
-        numRunsLabel = tk.Label(self, text='# of Runs:')
-        inningLabel = tk.Label(self, text='Inning:')
-        hitTypeLabel = tk.Label(self, text='Hit Type:')
-        mountScoreLabel = tk.Label(self ,text='UMU Score:')
-        opponentLabel = tk.Label(self, text='Opponent:')
-        opponentScoreLabel = tk.Label(self, text='Opponent Score:')
-        whoScoredLabel = tk.Label(self, text='Who Scored?')
+        playerNameLabel = tk.Label(self, text='Player Name:', font=('Helvetica', 20))
+        numRunsLabel = tk.Label(self, text='# of Runs:', font=('Helvetica', 20))
+        inningLabel = tk.Label(self, text='Inning:', font=('Helvetica', 20))
+        hitTypeLabel = tk.Label(self, text='Hit Type:', font=('Helvetica', 20))
+        mountScoreLabel = tk.Label(self ,text='UMU Score:', font=('Helvetica', 20))
+        opponentLabel = tk.Label(self, text='Opponent:', font=('Helvetica', 20))
+        opponentScoreLabel = tk.Label(self, text='Opponent Score:', font=('Helvetica', 20))
+        whoScoredLabel = tk.Label(self, text='Who Scored?', font=('Helvetica', 20))
 
 
         # Text Fields
-        playerNameEntry = tk.Entry(self, width=50)
-        numRunsEntry = tk.Entry(self, width=50)
-        inningEntry = tk.Entry(self, width=50)
-        mountScoreEntry = tk.Entry(self, width=50)
-        opponentEntry = tk.Entry(self, width=50)
-        opponentScoreEntry = tk.Entry(self, width=50)
+        playerNameEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        numRunsEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        inningEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        mountScoreEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        opponentEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
+        opponentScoreEntry = tk.Entry(self, width=20, font=('Helvetica', 20))
        
         # Placement
-        playerNameLabel.place(x=150, y=150)
-        numRunsLabel.place(x=150, y=175)
-        inningLabel.place(x=150, y=225)
-        hitTypeLabel.place(x=150, y=200)
-        mountScoreLabel.place(x=150, y=250)
-        opponentLabel.place(x=150, y=275)
-        opponentScoreLabel.place(x=150, y=300)
-        whoScoredLabel.place(x=150, y=125)
+        whoScoredLabel.place(x=150, y=150)
+        playerNameLabel.place(x=150, y=200)
+        numRunsLabel.place(x=150, y=250)
+        inningLabel.place(x=150, y=300)
+        hitTypeLabel.place(x=150, y=350)
+        mountScoreLabel.place(x=150, y=400)
+        opponentLabel.place(x=150, y=450)
+        opponentScoreLabel.place(x=150, y=500)
 
-        playerNameEntry.place(x=250, y=150)
-        numRunsEntry.place(x=250, y=175)
-        inningEntry.place(x=250, y=225)
-        mountScoreEntry.place(x=250, y=250)
-        opponentEntry.place(x=250, y=275)
-        opponentScoreEntry.place(x=250, y=300)
+        mountScoredRB.place(x=325, y=150)
+        opponentScoredRB.place(x=550, y=150)
 
-        hitTypeMenu.place(x=250, y=200)
+        playerNameEntry.place(x=375, y=200)
+        numRunsEntry.place(x=375, y=250)
+        hitTypeMenu.place(x=375, y=300)
+        inningEntry.place(x=375, y=350)
+        mountScoreEntry.place(x=375, y=400)
+        opponentEntry.place(x=375, y=450)
+        opponentScoreEntry.place(x=375, y=500)
 
-        mountScoredRB.place(x=250, y=125)
-        opponentScoredRB.place(x=350, y=125)
-
-        sendTweetButton.place(x=400, y=400)
-        backButton.place(x=50, y=45)
-        homeButton.place(x=150, y=45)
+        sendTweetButton.place(x=150, y=600)
 
 class EndGame(tk.Frame):
 
@@ -446,13 +464,34 @@ class EndGame(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        # Page Setup
-        label = tk.Label(self, text="End Game", font=controller.title_font)
-        label.pack(side="top", fill="x", pady=10)
-        homeButton = tk.Button(self, text="Home",
+# Page Styling
+        # Top Purple Bar
+        canvas = tk.Canvas(self, width=1000, height=750)
+        canvas.pack()
+        canvas.create_rectangle(0, 0, 1000, 100, fill="#542A6D")
+
+        # Logo
+        path = "./images/style/logo.png"
+        logo = Image.open(path)
+        logo = logo.resize((150, 100), Image.ANTIALIAS)
+        self.logoPhoto = ImageTk.PhotoImage(logo)
+        canvas.create_image(0, -5, image=self.logoPhoto, anchor="nw")
+
+        # Vertical Bar
+        canvas.create_line(150, 10, 150, 90, fill='white')
+        
+        # Header Label
+        chooseTweetLabel = tk.Label(self, text='Scoring Change Tweet', bg='#542A6D', fg='white', font=('Industry Inc Base', 25))
+        chooseTweetLabel.place(x=175, y=30)
+
+        # Home and back page Button
+        homeButton = tk.Button(self, text='Home', bg='white', bd=0, width=15, height=3, fg='#542A6D',
                            command=lambda: controller.show_frame("HomePage"))
-        backButton = tk.Button(self, text="<-- Back",
+        homeButton.place(x=825, y=18)
+
+        backButton = tk.Button(self, text="<-- Back", bg='white', bd=0, width=15, height=3, fg='#542A6D',
                             command=lambda: controller.show_frame("ChooseTweet"))
+        backButton.place(x=660, y=18)
 
         def WhoWon():
             if whoWon.get() == 'Mount Union':
