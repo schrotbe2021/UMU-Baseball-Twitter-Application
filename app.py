@@ -4,11 +4,12 @@ import tkFileDialog
 from PIL import Image, ImageTk
 import twitter
 import emoji
+import config
 
-api = twitter.Api(consumer_key='Kt4rgFjVqsEjUZ7hI2gogLgf3',
-                      consumer_secret='XnFrW7acLminsGdPTgiGxpsnSqDdhSu311LDcc0YsTsWTc1hHw',
-                      access_token_key='804787884893028356-OSuVoDz3eduTcwq8B50qiXIec5OhFCg',
-                      access_token_secret='hTw8k48CIWkQvkbH8yYSrDx9tDav4GWCciPQV5xGOArxa')
+api = twitter.Api(consumer_key=config.api_key,
+                      consumer_secret=config.api_secret,
+                      access_token_key=config.access_token,
+                      access_token_secret=config.token_secret)
 
 
 class UMUTwitterApp(tk.Tk):
@@ -463,11 +464,11 @@ class ScoringChange(tk.Frame):
 
         playerNameEntry.place(x=375, y=200)
         numRunsEntry.place(x=375, y=250)
-        hitTypeMenu.place(x=375, y=300)
-        inningEntry.place(x=375, y=350)
+        inningEntry.place(x=375, y=300)
+        hitTypeMenu.place(x=375, y=350)
         mountScoreEntry.place(x=375, y=400)
-        opponentEntry.place(x=375, y=450)
         opponentScoreEntry.place(x=375, y=500)
+        opponentEntry.place(x=375, y=450)
 
         sendTweetButton.place(x=150, y=600)
 
