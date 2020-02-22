@@ -6,6 +6,7 @@ import twitter
 import emoji
 import config
 
+
 api = twitter.Api(consumer_key=config.api_key,
                       consumer_secret=config.api_secret,
                       access_token_key=config.access_token,
@@ -113,6 +114,7 @@ class ChooseTweet(tk.Frame):
 
         # Logo
         path = "./images/style/logo.png"
+        print(path)
         logo = Image.open(path)
         logo = logo.resize((150, 100), Image.ANTIALIAS)
         self.logoPhoto = ImageTk.PhotoImage(logo)
@@ -194,7 +196,7 @@ class StartGame(tk.Frame):
         # Function to take input and format tweet
         def StartGameTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/StartGame"), title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
             
             # Tweet with photo
             status = api.PostUpdate('Mount Union (' + recordEntry.get() + ') takes on ' + opponentEntry.get()
@@ -297,6 +299,7 @@ class Lineup(tk.Frame):
         posOptionArray = []
 
         yLabel = 120  # Control for yPos of widget
+
         # For loop to instantiate and place labels and entries for lineup tweet
         for i in range(len(lineup)):
             yLabel += 40 # Increments yPos to display widgets correctly
@@ -334,7 +337,7 @@ class Lineup(tk.Frame):
         # Tweet for Lineup tweet
         def LineupTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/StartGame"), title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
             api.PostUpdate('Lineup for today\'s game against ' + opponentEntry.get() + '\n\n' 
@@ -406,7 +409,7 @@ class ScoringChange(tk.Frame):
 
         def ScoringChangeTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/Roster"), title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
             status = api.PostUpdate(WhoScored()
@@ -517,7 +520,7 @@ class EndGame(tk.Frame):
             
             # Pick photo for tweet in dialog only if Mount wins.
             if whoWon.get() == 'Mount Union':
-                filename = tkFileDialog.askopenfilename(initialdir = "./images/EndGame", title = "Select photo",filetypes = (("all files","*.*"), ("jpeg files","*.jpg")))
+                filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/EndGame"), title = "Select photo",filetypes = (("all files","*.*"), ("jpeg files","*.jpg")))
             else:
                 filename = ''
 
@@ -614,7 +617,7 @@ class SubPage(tk.Frame):
         
         def SubstitutionTweet():
             # Pick photo for tweet in dialog
-            filename = tkFileDialog.askopenfilename(initialdir = "./images/Roster", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+            filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/Roster"), title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
 
             # Tweet with photo
             api.PostUpdate(TweetType(), media=filename)
@@ -696,7 +699,7 @@ class CustomTweet(tk.Frame):
         def Custom():
             # Pick photo for tweet in dialog
             if mediaOption.get() == 'Yes':
-                filename = tkFileDialog.askopenfilename(initialdir = "./images/StartGame", title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
+                filename = tkFileDialog.askopenfilename(initialdir = resource_path("/images/StartGame"), title = "Select photo",filetypes = (("jpeg files","*.jpg"),("all files","*.*")))
             else:
                 filename = ''
             
