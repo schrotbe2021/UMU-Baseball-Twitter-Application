@@ -1,3 +1,0 @@
-Pillow==5.1.0
-python-twitter==3.4.2
-emoji==0.5.4
