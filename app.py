@@ -8,9 +8,9 @@ import config
 
 
 api = twitter.Api(consumer_key=config.api_key,
-                      consumer_secret=config.api_secret,
-                      access_token_key=config.access_token,
-                      access_token_secret=config.token_secret)
+                       consumer_secret=config.api_secret,
+                       access_token_key=config.access_token,
+                       access_token_secret=config.token_secret)
 
 
 class UMUTwitterApp(tk.Tk):
